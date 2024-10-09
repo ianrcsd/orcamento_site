@@ -2,16 +2,19 @@
 
 {% block content %}
     <h2>Criar Orçamento</h2>
-    <form method="post">
+    <form method="post" class="form-group">
         {% csrf_token %}
         {{ form.as_p }}
         <h3>Itens do Orçamento</h3>
         {{ formset.management_form }}
         {% for form in formset %}
-            <div class="formset">
-                {{ form.as_p }}
+            <div class="form-row">
+                <div class="col-md-6">{{ form.produto_servico.label_tag }} {{ form.produto_servico }}</div>
+                <div class="col-md-3">{{ form.quantidade.label_tag }} {{ form.quantidade }}</div>
+                <div class="col-md-3">{{ form.preco.label_tag }} {{ form.preco }}</div>
             </div>
         {% endfor %}
-        <button type="submit">Salvar Orçamento</button>
+        <button type="submit" class="btn btn-primary">Salvar Orçamento</button>
     </form>
+    
 {% endblock %}

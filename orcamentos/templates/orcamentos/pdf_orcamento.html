@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body { font-family: Arial, sans-serif; }
+        table { width: 100%; border-collapse: collapse; }
+        table, th, td { border: 1px solid black; }
+        th, td { padding: 8px; text-align: left; }
+        h1 { text-align: center; }
+    </style>
+</head>
+<body>
+    <h1>Orçamento #{{ orcamento.id }}</h1>
+    <p><strong>Cliente:</strong> {{ orcamento.cliente.nome }}</p>
+    <p><strong>Email:</strong> {{ orcamento.cliente.email }}</p>
+    <p><strong>Telefone:</strong> {{ orcamento.cliente.telefone }}</p>
+    <p><strong>Endereço:</strong> {{ orcamento.cliente.endereco }}</p>
+
+    <h3>Itens do Orçamento:</h3>
+    <table>
+        <tr>
+            <th>Produto/Serviço</th>
+            <th>Quantidade</th>
+            <th>Preço Unitário</th>
+            <th>Total</th>
+        </tr>
+        {% for item in orcamento.orcamentoitem_set.all %}
+        <tr>
+            <td>{{ item.produto_servico.nome }}</td>
+            <td>{{ item.quantidade }}</td>
+            <td>R$ {{ item.produto_servico.preco }}</td>
+            <td>R$ {{ item.quantidade|multiply:item.produto_servico.preco }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <p><strong>Total Geral:</strong> R$ 
+        {% with total=0 %}
+            {% for item in orcamento.orcamentoitem_set.all %}
+                {% with subtotal=item.quantidade|multiply:item.produto_servico.preco %}
+                    {% with total=total|add:subtotal %}
+                    {% endwith %}
+                {% endwith %}
+            {% endfor %}
+            {{ total }}
+        {% endwith %}
+    </p>
+</body>
+</html>
