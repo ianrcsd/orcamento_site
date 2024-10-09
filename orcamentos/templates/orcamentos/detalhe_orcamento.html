@@ -1,4 +1,5 @@
 {% extends 'orcamentos/base.html' %}
+{% load custom_filters %}
 
 {% block content %}
     <h2>{{ orcamento.titulo }}</h2>
@@ -12,15 +13,5 @@
             <li>{{ item.quantidade }} x {{ item.produto_servico.nome }} - R$ {{ item.produto_servico.preco }}</li>
         {% endfor %}
     </ul>
-    <p><strong>Total:</strong> R$ 
-        {% with total=0 %}
-            {% for item in orcamento.orcamentoitem_set.all %}
-                {% with subtotal=item.quantidade|multiply:item.produto_servico.preco %}
-                    {% with total=total|add:subtotal %}
-                    {% endwith %}
-                {% endwith %}
-            {% endfor %}
-            {{ total }}
-        {% endwith %}
-    </p>
+    <p><strong>Total:</strong> R$ {{ total }}</p>
 {% endblock %}

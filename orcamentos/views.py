@@ -40,9 +40,17 @@ def criar_orcamento(request):
 
 @login_required
 def detalhe_orcamento(request, pk):
-    orcamento = get_object_or_404(Orcamento, pk=pk)
+    orcamento = get_object_or_404(Orcamento, id=pk)
+
+    total = sum(
+        item.quantidade * item.produto_servico.preco
+        for item in orcamento.orcamentoitem_set.all()
+    )
+
     return render(
-        request, "orcamentos/detalhe_orcamento.html", {"orcamento": orcamento}
+        request,
+        "orcamentos/detalhe_orcamento.html",
+        {"orcamento": orcamento, "total": total},
     )
 
 
