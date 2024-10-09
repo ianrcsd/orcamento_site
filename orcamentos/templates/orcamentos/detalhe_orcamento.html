@@ -1,0 +1,26 @@
+{% extends 'orcamentos/base.html' %}
+
+{% block content %}
+    <h2>{{ orcamento.titulo }}</h2>
+    <p><strong>Cliente:</strong> {{ orcamento.cliente.nome }}</p>
+    <p><strong>Email:</strong> {{ orcamento.cliente.email }}</p>
+    <p><strong>Telefone:</strong> {{ orcamento.cliente.telefone }}</p>
+    <p><strong>Endereço:</strong> {{ orcamento.cliente.endereco }}</p>
+    <h3>Itens:</h3>
+    <ul>
+        {% for item in orcamento.orcamentoitem_set.all %}
+            <li>{{ item.quantidade }} x {{ item.produto_servico.nome }} - R$ {{ item.produto_servico.preco }}</li>
+        {% endfor %}
+    </ul>
+    <p><strong>Total:</strong> R$ 
+        {% with total=0 %}
+            {% for item in orcamento.orcamentoitem_set.all %}
+                {% with subtotal=item.quantidade|multiply:item.produto_servico.preco %}
+                    {% with total=total|add:subtotal %}
+                    {% endwith %}
+                {% endwith %}
+            {% endfor %}
+            {{ total }}
+        {% endwith %}
+    </p>
+{% endblock %}

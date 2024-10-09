@@ -1,0 +1,17 @@
+{% extends 'orcamentos/base.html' %}
+
+{% block content %}
+    <h2>Lista de Orçamentos</h2>
+    <a href="{% url 'orcamentos:criar_orcamento' %}">Criar Novo Orçamento</a>
+    <ul>
+        {% for orcamento in orcamentos %}
+            <li>
+                <a href="{% url 'orcamentos:detalhe_orcamento' orcamento.id %}">
+                    {{ orcamento.titulo }} - {{ orcamento.cliente.nome }}
+                </a>
+            </li>
+        {% empty %}
+            <li>Nenhum orçamento criado ainda.</li>
+        {% endfor %}
+    </ul>
+{% endblock %}

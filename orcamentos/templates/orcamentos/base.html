@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    {% load static %}
+    <meta charset="UTF-8">
+    <title>Gerador de Orçamentos</title>
+    <link rel="stylesheet" href="{% static 'orcamentos/css/styles.css' %}">
+</head>
+<body>
+    <header>
+        <img src="{% static 'orcamentos/images/logo.png' %}" alt="Logo">
+        <h1>Gerador de Orçamentos</h1>
+        <nav>
+            <a href="{% url 'orcamentos:index' %}">Início</a>
+            <a href="{% url 'orcamentos:lista_orcamentos' %}">Orçamentos</a>
+            <a href="{% url 'admin:index' %}">Admin</a>
+        </nav>
+    </header>
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+    <footer>
+        <p>&copy; 2024 Seu Estabelecimento</p>
+    </footer>
+</body>
+</html>
