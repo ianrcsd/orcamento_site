@@ -6,6 +6,7 @@ from .forms import OrcamentoForm, OrcamentoItemFormSet
 from django.http import HttpResponse
 from django.template.loader import get_template
 from xhtml2pdf import pisa
+from django.db.models import Q
 
 
 def index(request):
@@ -14,9 +15,17 @@ def index(request):
 
 @login_required
 def lista_orcamentos(request):
-    orcamentos = Orcamento.objects.all()
+    query = request.GET.get("q")
+    if query:
+        orcamentos = Orcamento.objects.filter(
+            Q(titulo__icontains=query) | Q(cliente__nome__icontains=query)
+        )
+    else:
+        orcamentos = Orcamento.objects.all()
     return render(
-        request, "orcamentos/lista_orcamentos.html", {"orcamentos": orcamentos}
+        request,
+        "orcamentos/lista_orcamentos.html",
+        {"orcamentos": orcamentos, "query": query},
     )
 
 

@@ -1,8 +1,15 @@
 {% extends 'orcamentos/base.html' %}
 
 {% block content %}
+<form method="get">
+    <input type="text" name="q" placeholder="Buscar orçamentos..." value="{{ query }}">
+    <button type="submit">Buscar</button>
+</form>
+
     <h2>Lista de Orçamentos</h2>
     <a href="{% url 'orcamentos:criar_orcamento' %}">Criar Novo Orçamento</a>
+
+    
     <ul>
         {% for orcamento in orcamentos %}
             <li>
@@ -11,7 +18,8 @@
                 </a>
             </li>
         {% empty %}
-            <li>Nenhum orçamento criado ainda.</li>
+            <li>Nenhum orçamento encontrado.</li>
         {% endfor %}
     </ul>
+    
 {% endblock %}
